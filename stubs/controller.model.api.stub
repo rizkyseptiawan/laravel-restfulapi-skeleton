@@ -1,0 +1,119 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ namespacedModel }};
+use {{ rootNamespace }}Http\Controllers\ApiController;
+use {{ namespacedRequests }}
+use Illuminate\Http\JsonResponse;
+use Spatie\QueryBuilder\QueryBuilder;
+use Throwable;
+use Illuminate\Support\Facades\DB;
+
+class {{ class }} extends ApiController
+{
+    /**
+     * Display a listing of {{ model }}.
+     * @return JsonResponse
+     */
+    public function index()
+    {
+        ${{ modelVariable }}Query = {{ model }}::query();
+        ${{ modelVariable }}QueryResults = QueryBuilder::for(${{ modelVariable }}Query)
+            ->allowedFilters([])
+            ->allowedSorts([])
+            ->allowedIncludes([])
+            ->paginate();
+        return $this->generateApiResponse(data: ${{ modelVariable }}QueryResults);
+    }
+
+    /**
+     * Store a newly created resource of {{ model }} in storage.
+     * @param Request $request Request
+     * @return JsonResponse
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            $dataToStore = [
+                //
+            ];
+            ${{ modelVariable }} = {{ model }}::create($dataToStore);
+            DB::commit();
+            return $this->generateApiResponse(data: ${{ modelVariable }}, statusCode: 201);
+        } catch (Throwable $th) {
+            DB::rollBack();
+            return $this->generateApiFromException($th);
+        }
+    }
+
+    /**
+     * Display the specified resource of {{ model }}.
+     * @param string $id {{ model }} id
+     * @return JsonResponse
+     */
+    public function show(string $id)
+    {
+        ${{ modelVariable }} = {{ model }}::query();
+        ${{ modelVariable }}QueryResult = QueryBuilder::for(${{ modelVariable }})
+            ->allowedFields([])
+            ->allowedIncludes([])
+            ->findOrFail($id);
+        return $this->generateApiResponse(data: ${{ modelVariable }}QueryResult);
+    }
+
+    /**
+     * Update the specified resource of {{ model }} in storage.
+     * @param {{ updateRequest }} $request Request
+     * @param string $id {{ model }} id
+     * @return JsonResponse
+     */
+    public function update({{ updateRequest }} $request, string $id)
+    {
+        ${{ modelVariable }} = {{ model }}::findOrFail($id);
+        $request->validate([
+
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            $dataToStore = [
+                //
+            ];
+
+            ${{ modelVariable }}->update($dataToStore);
+            DB::commit();
+            return $this->generateApiResponse(data: ${{ modelVariable }});
+        } catch (Throwable $th) {
+            DB::rollBack();
+            return $this->generateApiFromException($th);
+        }
+    }
+
+    /**
+     * Remove the specified resource of {{ model }} from storage.
+     * @param string $id {{ model }} id
+     * @return JsonResponse
+     */
+    public function destroy(string $id)
+    {
+        ${{ modelVariable }} = {{ model }}::findOrFail($id);
+        try {
+            DB::beginTransaction();
+            ${{ modelVariable }}->delete();
+
+            DB::commit();
+            return $this->generateApiResponse(statusCode: 204);
+        } catch (Throwable $th) {
+            DB::rollBack();
+            return $this->generateApiFromException($th);
+        }
+    }
+}

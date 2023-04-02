@@ -1,0 +1,69 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ rootNamespace }}Http\Controllers\Controller;
+use App\Traits\ResponseApi;
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Spatie\QueryBuilder\QueryBuilder;
+use Throwable;
+use Illuminate\Support\Facades\DB;
+
+class {{ class }} extends Controller
+{
+    use ResponseApi;
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $query = null;
+        $queryResults = QueryBuilder::for($query)
+                    ->allowedFields([])
+                    ->allowedFilters([])
+                    ->allowedSorts([])
+                    ->allowedIncludes([])
+                    ->paginate();
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+
+        ]);
+
+        try{
+
+        }catch(Throwable $th){
+
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
+    }
+}
